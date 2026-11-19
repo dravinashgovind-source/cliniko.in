@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Accent, Eyebrow, Reveal } from "../ui/Reveal";
 import { ArrowRight, ArrowUpRight } from "../ui/Icons";
+import { CaseStudy } from "./CaseStudy";
 
 type Project = {
   sector: string;
@@ -117,6 +118,13 @@ export function Work() {
             <a href="#contact" className="btn btn--outline">Discuss your project <ArrowRight /></a>
           </Reveal>
         </div>
+
+        <CaseStudy />
+
+        <Reveal className="work__more">
+          <p className="eyebrow">Concept directions</p>
+          <p className="work__more-text">How we&rsquo;d bring the same craft to other specialties.</p>
+        </Reveal>
 
         <div className="work__grid">
           {projects.map((p, i) => <ProjectCard key={p.title} p={p} i={i} />)}
