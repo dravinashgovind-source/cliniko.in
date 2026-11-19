@@ -10,6 +10,9 @@ export const site = {
   tagline: "Build. Grow. Get Found.",
   descriptor: "Marketing for Doctors. Growth for Clinics.",
   contactEmail: "support@cliniko.in",
+  // WhatsApp number in international format, digits only (e.g. "919876543210").
+  // Leave empty to hide the WhatsApp button in the header.
+  whatsapp: "",
   socials: {
     youtube: "#",
     instagram: "#",

@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { nav } from "../../content/site";
-import { Logo } from "../ui/Logo";
-import { ArrowRight, Close, Menu } from "../ui/Icons";
+import { nav, site } from "../../content/site";
+import { LogoMark } from "../ui/Logo";
+import { ArrowRight, ArrowUpRight, Close, Mail, Menu, WhatsAppIcon } from "../ui/Icons";
 import { ease } from "../ui/Reveal";
 
 export function Nav() {
@@ -25,32 +25,48 @@ export function Nav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  const whatsapp = site.whatsapp ? `https://wa.me/${site.whatsapp}` : null;
+
   return (
-    <header className={`nav${scrolled ? " is-scrolled" : ""}`}>
-      <div className="container nav__inner">
-        <a href="#top" className="nav__brand" aria-label="Cliniko — home">
-          <Logo />
-        </a>
+    <header className={`nav${scrolled ? " is-scrolled" : ""}${open ? " is-open" : ""}`}>
+      <div className="nav__wrap">
+        <div className="nav__bar">
+          <a href="#top" className="nav__brand" aria-label="Cliniko — home">
+            <span className="nav__tile"><LogoMark size={22} /></span>
+            <span className="nav__word">CLINIKO</span>
+          </a>
 
-        <nav aria-label="Primary" className="nav__links">
-          {nav.map((item) => (
-            <a key={item.href} href={item.href}>{item.label}</a>
-          ))}
-        </nav>
+          <nav aria-label="Primary" className="nav__links">
+            {nav.map((item) => (
+              <a key={item.href} href={item.href}>{item.label}</a>
+            ))}
+          </nav>
 
-        <a href="#contact" className="btn btn--primary btn--sm nav__cta">
-          Let&rsquo;s talk <ArrowRight />
-        </a>
+          <div className="nav__actions">
+            <a href="#films" className="nav__ghost">
+              Watch our films <ArrowUpRight width={14} height={14} />
+            </a>
+            {whatsapp && (
+              <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="nav__icon nav__icon--wa" aria-label="Chat on WhatsApp">
+                <WhatsAppIcon />
+              </a>
+            )}
+            <a href={`mailto:${site.contactEmail}`} className="nav__icon nav__icon--mail" aria-label={`Email ${site.contactEmail}`}>
+              <Mail />
+            </a>
+            <a href="#contact" className="nav__cta">Let&rsquo;s talk</a>
+          </div>
 
-        <button
-          className="nav__toggle"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <Close /> : <Menu />}
-        </button>
+          <button
+            className="nav__toggle"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <Close width={20} height={20} /> : <Menu width={20} height={20} />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -77,9 +93,17 @@ export function Nav() {
                 </motion.a>
               ))}
             </nav>
-            <a href="#contact" onClick={() => setOpen(false)} className="btn btn--primary sheet__cta">
-              Let&rsquo;s talk <ArrowRight />
-            </a>
+            <div className="sheet__foot">
+              <div className="sheet__icons">
+                {whatsapp && (
+                  <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="nav__icon nav__icon--wa" aria-label="Chat on WhatsApp"><WhatsAppIcon /></a>
+                )}
+                <a href={`mailto:${site.contactEmail}`} className="nav__icon nav__icon--mail" aria-label={`Email ${site.contactEmail}`}><Mail /></a>
+              </div>
+              <a href="#contact" onClick={() => setOpen(false)} className="btn btn--primary sheet__cta">
+                Let&rsquo;s talk <ArrowRight />
+              </a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
