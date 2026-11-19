@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, animate, motion, useMotionTemplate, useMotionValue, useTransform } from "framer-motion";
 import { Accent, Eyebrow, Reveal, ease } from "../ui/Reveal";
 import { Check, MapsMark, Star } from "../ui/Icons";
 import { LogoMark } from "../ui/Logo";
@@ -121,15 +121,30 @@ function After({ id }: { id: PairId }) {
 
 export function Transformation() {
   const [tab, setTab] = useState<PairId>("website");
-  const [pos, setPos] = useState(50);
+  // Position lives in a motion value: dragging updates the DOM directly, no React re-render per frame.
+  const pos = useMotionValue(50);
+  const [val, setVal] = useState(50); // mirrored for the accessible range input
+  const clip = useMotionTemplate`inset(0 ${useTransform(pos, (v) => 100 - v)}% 0 0)`;
+  const left = useMotionTemplate`${pos}%`;
   const frame = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
 
+  const clamp = (v: number) => Math.min(96, Math.max(4, v));
   const update = useCallback((clientX: number) => {
     const r = frame.current?.getBoundingClientRect();
-    if (!r) return;
-    setPos(Math.min(96, Math.max(4, ((clientX - r.left) / r.width) * 100)));
-  }, []);
+    if (!r || !r.width) return;
+    pos.set(clamp(((clientX - r.left) / r.width) * 100));
+  }, [pos]);
+  const endDrag = () => {
+    if (!dragging.current) return;
+    dragging.current = false;
+    setVal(Math.round(pos.get()));
+  };
+  const setTo = (v: number, smooth = false) => {
+    setVal(v);
+    if (smooth) animate(pos, v, { duration: 0.6, ease });
+    else pos.set(v);
+  };
 
   const pair = pairs.find((p) => p.id === tab)!;
 
@@ -151,7 +166,7 @@ export function Transformation() {
               role="tab"
               aria-selected={tab === p.id}
               className={`ctab${tab === p.id ? " is-active" : ""}`}
-              onClick={() => { setTab(p.id); setPos(50); }}
+              onClick={() => { setTab(p.id); setTo(50, true); }}
             >
               {tab === p.id && <motion.span layoutId="ctab-bg" className="ctab__bg" transition={{ duration: 0.5, ease }} />}
               <span className="ctab__label">{p.label}</span>
@@ -163,10 +178,17 @@ export function Transformation() {
           <div
             ref={frame}
             className="compare"
-            onPointerDown={(e) => { dragging.current = true; (e.target as HTMLElement).setPointerCapture?.(e.pointerId); update(e.clientX); }}
-            onPointerMove={(e) => dragging.current && update(e.clientX)}
-            onPointerUp={() => { dragging.current = false; }}
-            onPointerCancel={() => { dragging.current = false; }}
+            onPointerDown={(e) => {
+              if (e.button !== 0) return;
+              dragging.current = true;
+              e.currentTarget.setPointerCapture(e.pointerId);
+              update(e.clientX);
+            }}
+            onPointerMove={(e) => { if (dragging.current) update(e.clientX); }}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+            onLostPointerCapture={endDrag}
+            onDragStart={(e) => e.preventDefault()}
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -178,28 +200,28 @@ export function Transformation() {
                 transition={{ duration: 0.35 }}
               >
                 <div className="compare__side compare__side--after"><After id={tab} /></div>
-                <div className="compare__side compare__side--before" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
+                <motion.div className="compare__side compare__side--before" style={{ clipPath: clip }}>
                   <Before id={tab} />
-                </div>
+                </motion.div>
               </motion.div>
             </AnimatePresence>
 
             <span className="compare__tag compare__tag--before">Before</span>
             <span className="compare__tag compare__tag--after">With Cliniko</span>
 
-            <div className="compare__handle" style={{ left: `${pos}%` }}>
+            <motion.div className="compare__handle" style={{ left }}>
               <input
                 type="range"
                 min={4}
                 max={96}
-                value={pos}
-                onChange={(e) => setPos(Number(e.target.value))}
+                value={val}
+                onChange={(e) => setTo(Number(e.target.value))}
                 aria-label={`Compare before and after: ${pair.label}`}
               />
               <span className="compare__knob" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="m9 7-5 5 5 5M15 7l5 5-5 5" /></svg>
               </span>
-            </div>
+            </motion.div>
           </div>
 
           <div className="compare__captions">

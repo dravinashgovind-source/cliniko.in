@@ -796,9 +796,15 @@ section[id], [id="contact"] { scroll-margin-top: 80px; }
   width: 2px; margin-left: -1px; background: #fff;
   box-shadow: 0 0 0 1px rgba(11, 25, 53, 0.08), 0 0 24px rgba(0, 0, 0, 0.2);
 }
+/* Keyboard/screen-reader control only — pointer input is handled by the frame, so the
+   native range never fights the drag. */
 .compare__handle input {
-  position: absolute; inset: 0 -24px; width: 48px; height: 100%; opacity: 0; cursor: ew-resize; margin: 0;
+  position: absolute; top: 50%; left: 50%; width: 1px; height: 1px; margin: 0;
+  opacity: 0; pointer-events: none;
 }
+.compare__layers img, .compare__layers * { -webkit-user-drag: none; user-drag: none; }
+.compare__side--before { will-change: clip-path; }
+.compare__handle { will-change: left; }
 .compare__handle:focus-within .compare__knob { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.35), var(--shadow-md); }
 .compare__knob {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
