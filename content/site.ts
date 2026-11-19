@@ -9,8 +9,7 @@ export const site = {
   domain: "cliniko.in",
   tagline: "Build. Grow. Get Found.",
   descriptor: "Marketing for Doctors. Growth for Clinics.",
-  // TODO: confirm the real inbox before launch.
-  contactEmail: "hello@cliniko.in",
+  contactEmail: "support@cliniko.in",
   socials: {
     youtube: "#",
     instagram: "#",
