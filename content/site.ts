@@ -12,7 +12,8 @@ export const site = {
   contactEmail: "support@cliniko.in",
   // WhatsApp number in international format, digits only (e.g. "919876543210").
   // Leave empty to hide the WhatsApp button in the header.
-  whatsapp: "",
+  whatsapp: "918700733998",
+  whatsappDisplay: "+91 87007 33998",
   socials: {
     youtube: "#",
     instagram: "#",
@@ -20,6 +21,10 @@ export const site = {
     x: "#",
   },
 };
+
+/** WhatsApp chat link with a friendly pre-filled first message. */
+export const whatsappLink = (text = "Hi Cliniko, I’d like to grow my clinic’s online presence.") =>
+  site.whatsapp ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}` : null;
 
 export const nav = [
   { label: "What we do", href: "#services" },

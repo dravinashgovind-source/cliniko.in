@@ -1,6 +1,6 @@
-import { site } from "../../content/site";
+import { site, whatsappLink } from "../../content/site";
 import { Accent, Reveal } from "../ui/Reveal";
-import { ArrowRight } from "../ui/Icons";
+import { ArrowRight, WhatsAppIcon } from "../ui/Icons";
 import { LogoMark } from "../ui/Logo";
 
 export function FinalCTA() {
@@ -22,6 +22,13 @@ export function FinalCTA() {
             <a className="btn btn--light btn--lg" href={`mailto:${site.contactEmail}?subject=Let%E2%80%99s%20grow%20together`}>
               Let&rsquo;s grow together <ArrowRight />
             </a>
+            {whatsappLink() && (
+              <a className="btn btn--lg cta__wa" href={whatsappLink()!} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon width={20} height={20} /> WhatsApp {site.whatsappDisplay}
+              </a>
+            )}
+          </div>
+          <div className="cta__contact">
             <a className="cta__mail" href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
           </div>
         </Reveal>

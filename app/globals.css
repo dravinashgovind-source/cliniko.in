@@ -1206,6 +1206,9 @@ section[id], [id="contact"] { scroll-margin-top: 80px; }
 .cta__title .accent { color: #5eead4; }
 .cta__lead { font-size: clamp(1.05rem, 1.4vw, 1.25rem); color: rgba(255, 255, 255, 0.72); margin-top: 28px; max-width: 30em; }
 .cta__actions { display: flex; align-items: center; flex-wrap: wrap; gap: 28px; margin-top: 44px; }
+.cta__wa { background: #25D366; color: #06331b; font-weight: 600; }
+.cta__wa:hover { background: #3be27a; }
+.cta__contact { margin-top: 22px; }
 .cta__mail { color: rgba(255, 255, 255, 0.75); border-bottom: 1px solid rgba(255, 255, 255, 0.3); padding-bottom: 2px; transition: color 0.3s, border-color 0.3s; }
 .cta__mail:hover { color: #fff; border-color: #fff; }
 .cta__mark { filter: drop-shadow(0 30px 60px rgba(20, 184, 166, 0.35)); animation: bob 7s ease-in-out infinite; }
@@ -1350,6 +1353,28 @@ section[id], [id="contact"] { scroll-margin-top: 80px; }
 
 .work__more { margin-top: clamp(64px, 8vw, 110px); display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
 .work__more-text { color: var(--muted); font-size: 1rem; }
+
+/* ---------------------------------------------------------------- WhatsApp floating button */
+
+.wa-fab {
+  position: fixed; right: 22px; bottom: 22px; z-index: 45;
+  display: inline-flex; align-items: center; gap: 0;
+  height: 58px; padding: 0 16px; border-radius: 999px;
+  background: #25D366; color: #fff;
+  box-shadow: 0 10px 30px -8px rgba(37, 211, 102, 0.6), 0 4px 10px rgba(11, 25, 53, 0.12);
+  opacity: 0; transform: translateY(16px) scale(0.9); pointer-events: none;
+  transition: opacity 0.4s var(--ease), transform 0.5s var(--ease), gap 0.4s var(--ease), background-color 0.25s;
+}
+.wa-fab.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+.wa-fab__label {
+  max-width: 0; overflow: hidden; white-space: nowrap;
+  font-weight: 600; font-size: 0.95rem;
+  transition: max-width 0.45s var(--ease);
+}
+.wa-fab:hover { background: #1ebe5a; gap: 10px; }
+.wa-fab:hover .wa-fab__label, .wa-fab:focus-visible .wa-fab__label { max-width: 140px; }
+.wa-fab:focus-visible { outline: 3px solid rgba(37, 99, 235, 0.5); outline-offset: 3px; }
+@media (max-width: 640px) { .cta__actions { gap: 12px; } .cta__actions .btn { width: 100%; justify-content: center; } .wa-fab { right: 16px; bottom: 16px; height: 54px; padding: 0 14px; } }
 
 /* ==========================================================================
    Responsive

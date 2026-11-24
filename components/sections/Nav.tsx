@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { nav, site } from "../../content/site";
+import { nav, site, whatsappLink } from "../../content/site";
 import { LogoMark } from "../ui/Logo";
 import { ArrowRight, ArrowUpRight, Close, Mail, Menu, WhatsAppIcon } from "../ui/Icons";
 import { ease } from "../ui/Reveal";
@@ -25,7 +25,7 @@ export function Nav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const whatsapp = site.whatsapp ? `https://wa.me/${site.whatsapp}` : null;
+  const whatsapp = whatsappLink();
 
   return (
     <header className={`nav${scrolled ? " is-scrolled" : ""}${open ? " is-open" : ""}`}>

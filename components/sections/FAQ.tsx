@@ -42,7 +42,8 @@ export function FAQ() {
         <Reveal className="faq__aside">
           <Eyebrow>FAQ</Eyebrow>
           <h2 id="faq-title" className="h2">Questions, <Accent>answered.</Accent></h2>
-          <p className="lead">Can&rsquo;t find what you&rsquo;re looking for? Write to us at <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>.</p>
+          <p className="lead">Can&rsquo;t find what you&rsquo;re looking for? Write to us at <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
+            {site.whatsapp && <> or WhatsApp <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">{site.whatsappDisplay}</a></>}.</p>
         </Reveal>
 
         <Reveal className="faq__list" delay={0.1}>

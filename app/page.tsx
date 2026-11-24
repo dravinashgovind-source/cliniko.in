@@ -12,6 +12,7 @@ import { Testimonials } from "../components/sections/Testimonials";
 import { Packages } from "../components/sections/Packages";
 import { FAQ } from "../components/sections/FAQ";
 import { FinalCTA } from "../components/sections/FinalCTA";
+import { WhatsAppFab } from "../components/ui/WhatsAppFab";
 import { Footer } from "../components/sections/Footer";
 
 export default function Home() {
@@ -34,6 +35,7 @@ export default function Home() {
         <FinalCTA />
       </main>
       <Footer />
+      <WhatsAppFab />
     </MotionProvider>
   );
 }
